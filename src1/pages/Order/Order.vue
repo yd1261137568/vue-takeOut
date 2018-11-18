@@ -1,6 +1,6 @@
 <template>
   <section class="order">
-    <TopHeader title="订单列表"/>
+    <TopHeader title="订单" />
     <section class="order_no_login">
       <img src="./images/person.png">
       <h3>登录后查看外卖订单</h3>
@@ -9,9 +9,10 @@
   </section>
 </template>
 <script>
-  export default {}
+
 </script>
 <style scoped lang="stylus" rel="stylesheet/stylus">
+  @import "../../common/stylus/mixins.styl"
   .order  //订单
     width 100%
     .order_no_login
