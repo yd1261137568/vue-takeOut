@@ -1,12 +1,8 @@
 <template>
   <section class="profile">
-    <header class="header">
-      <a class="header_title">
-        <span class="header_title_text">我的</span>
-      </a>
-    </header>
+    <TopHeader title="个人中心" />
     <section class="profile-number">
-      <a href="javascript:" class="profile-link">
+      <a href="javascript:" class="profile-link" @click="$router.push('/login')">
         <div class="profile_image">
           <i class="iconfont icon-person"></i>
         </div>
@@ -95,38 +91,12 @@
   </section>
 </template>
 <script>
+  export default {
 
+  }
 </script>
 <style scoped lang="stylus" rel="stylesheet/stylus">
   @import "../../common/stylus/mixins.styl"
-
-  .header //头部公共css
-    background-color #02a774
-    position fixed
-    z-index 100
-    left 0
-    top 0
-    width 100%
-    height 45px
-    .header_search
-      position absolute
-      left 15px
-      top 50%
-      transform translateY(-50%)
-      width 10%
-      height 50%
-      .iconfont
-        font-size 22px
-        color #fff
-    .header_title
-      position absolute
-      top 50%
-      left 50%
-      transform translate(-50%, -50%)
-      width 30%
-      color #fff
-      font-size 22px
-      text-align center
   .profile //我的
     width 100%
     .profile-number
