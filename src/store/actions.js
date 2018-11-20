@@ -3,7 +3,10 @@ import {
   RECEIVE_ADDRESS,
   RECEIVE_CATEGORYS,
   RECEIVE_SHOPS,
-  RECEIVE_USER
+  RECEIVE_USER,
+  RECEIVE_GOODS,
+  RECEIVE_RATINGS,
+  RECEIVE_INFO
 } from './mutation-types';
 import {
   reqAddress,
@@ -54,6 +57,31 @@ export default {
       const user = result.data;
       commit(RECEIVE_USER,{user})
     }
-  }
+  },
+
+  //获取商家商品列表
+  async getShopGoods ({commit}) {
+    const result = await reqShopGoods();
+    if(result.code === 0) {
+      const goods = result.data;
+      commit(RECEIVE_GOODS,{goods})
+    }
+  },
+  //获取商家评论列表
+  async getShopRatings ({commit}) {
+    const result = await reqShopRatings();
+    if(result.code === 0) {
+      const ratings = result.data;
+      commit(RECEIVE_RATINGS,{ratings})
+    }
+  },
+  //获取商家信息
+  async getShopInfo ({commit}) {
+    const result = await reqShopInfo();
+    if(result.code === 0) {
+      const info = result.data;
+      commit(RECEIVE_INFO,{info})
+    }
+  },
 
 }

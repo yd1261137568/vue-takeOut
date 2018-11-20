@@ -24,3 +24,7 @@ export const reqPwdLogin = ({name,pwd,captcha}) => ajax(BASE+'/login_pwd',{name,
 
 //保存当前用户信息
 export const reqUserInfo = () => ajax(BASE+'/userinfo');
+
+export const reqShopGoods = () => ajax('/goods');
+export const reqShopRatings = () => ajax('/ratings');
+export const reqShopInfo = () => ajax('/info');
