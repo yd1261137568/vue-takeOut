@@ -1,117 +1,24 @@
 <template>
   <section class="msite">
     <!--首页头部-->
-    <TopHeader title="昌平区北七家宏福科技园(337省道北)">
-      <span class="header_search" slot="left">
+    <TopHeader :title="address.name">
+       <span class="header_search" slot="left">
         <i class="iconfont icon-sousuo"></i>
       </span>
       <span class="header_login" slot="right">
         <span class="header_login_text">登录|注册</span>
       </span>
     </TopHeader>
-
     <!--首页导航-->
     <nav class="msite_nav">
-      <div class="swiper-container">
+      <div class="swiper-container" v-if="categorys.length">
         <div class="swiper-wrapper">
-          <div class="swiper-slide">
-            <a href="javascript:" class="link_to_food">
+          <div class="swiper-slide" v-for="(categorys,index) in categorysArr" :key="index">
+            <a href="javascript:" class="link_to_food" v-for="(category,index) in categorys" :key="index">
               <div class="food_container">
-                <img src="./images/nav/1.jpg">
+                <img :src="'https://fuss10.elemecdn.com'+category.image_url">
               </div>
-              <span>甜品饮品</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="./images/nav/2.jpg">
-              </div>
-              <span>商超便利</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="./images/nav/3.jpg">
-              </div>
-              <span>美食</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="./images/nav/4.jpg">
-              </div>
-              <span>简餐</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="./images/nav/5.jpg">
-              </div>
-              <span>新店特惠</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="./images/nav/6.jpg">
-              </div>
-              <span>准时达</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="./images/nav/7.jpg">
-              </div>
-              <span>预订早餐</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="./images/nav/8.jpg">
-              </div>
-              <span>土豪推荐</span>
-            </a>
-          </div>
-          <div class="swiper-slide">
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="./images/nav/9.jpg">
-              </div>
-              <span>甜品饮品</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="./images/nav/10.jpg">
-              </div>
-              <span>商超便利</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="./images/nav/11.jpg">
-              </div>
-              <span>美食</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="./images/nav/12.jpg">
-              </div>
-              <span>简餐</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="./images/nav/13.jpg">
-              </div>
-              <span>新店特惠</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="./images/nav/14.jpg">
-              </div>
-              <span>准时达</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="./images/nav/1.jpg">
-              </div>
-              <span>预订早餐</span>
-            </a>
-            <a href="javascript:" class="link_to_food">
-              <div class="food_container">
-                <img src="./images/nav/2.jpg">
-              </div>
-              <span>土豪推荐</span>
+              <span>{{category.title}}</span>
             </a>
           </div>
         </div>
@@ -124,57 +31,61 @@
   </section>
 </template>
 <script>
+  import {mapState} from 'vuex';
+  import Swiper from 'swiper';
+  import 'swiper/dist/css/swiper.min.css';
   import ShopList from '../../components/ShopList/ShopList.vue';
   export default {
+    mounted () {
+      //分发异步获取食品分类列表
+      this.$store.dispatch('getFoodCategorys');// 先this.$store.dispatch('actionName')获取后台数据到前端页面中(state)
+      //分发异步获取商家列表
+      this.$store.dispatch('getShops');
+    },
+    computed:{
+      ...mapState(['address','categorys']),//...mapState(['xxx'])读取state中的数据到组件中
+      categorysArr () {
+        const {categorys} = this;
+        //大数组
+        let arr = [];
+        //小数组
+        let smallArr = [];
+        categorys.forEach(c => {
+          if(smallArr.length === 0){
+            arr.push(smallArr);
+          }
+          smallArr.push(c);
+          if(smallArr.length >= 8){
+            smallArr = [];
+          }
+        });
+        return arr
+      }
+    },
+
+    watch:{
+      // 更新状态数据==>调用监视的回调函数 ==> 异步更新界面 ==> 执行$nextTick()指定的回调函数
+      categorys () {
+        this.$nextTick(() => {
+          new Swiper('.swiper-container',{
+            loop: true, // 循环模式选项
+            // 如果需要分页器
+            pagination: {
+              el: '.swiper-pagination',
+            },
+          })
+        })
+      }
+    },
     components:{
       ShopList
     }
   }
-
 </script>
 <style scoped lang="stylus" rel="stylesheet/stylus">
   @import "../../common/stylus/mixins.styl"
   .msite  //首页
     width 100%
-    .msite_header
-      background-color #02a774
-      position fixed
-      z-index 100
-      left 0
-      top 0
-      width 100%
-      height 45px
-      .header_search
-        position absolute
-        left 15px
-        top 50%
-        transform translateY(-50%)
-        width 10%
-        height 50%
-        .icon-sousuo
-          font-size 25px
-          color #fff
-      .header_title
-        position absolute
-        top 50%
-        left 50%
-        transform translate(-50%, -50%)
-        width 50%
-        color #fff
-        text-align center
-        .header_title_text
-          font-size 20px
-          color #fff
-          display block
-      .header_login
-        font-size 14px
-        color #fff
-        position absolute
-        right 15px
-        top 50%
-        transform translateY(-50%)
-        .header_login_text
-          color #fff
     .msite_nav
       bottom-border-1px(#e4e4e4)
       margin-top 45px
