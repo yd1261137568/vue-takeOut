@@ -117,7 +117,7 @@
             return MessageBox.alert('请输入正确的验证码')
           }
           //都合法后,需要发送登录请求
-          result = await reqSmsLogin({phone,code});
+          result = await reqSmsLogin(phone,code);
           console.log('短信登录成功');
 
         }else { // 密码登录
@@ -131,11 +131,20 @@
           //都合法后,需要发送登录请求
           result = await reqPwdLogin({name,pwd,captcha});
           console.log('密码登录成功');
+        }
+        //如果登录失败,更新验证码
+        if(result.code !== 0) {
+          this.updateCaptcha();
+        }
 
-          if(result.code === 0) {
-            //登录成功,跳转到个人中心页面
-            this.$router.replace('/profile');
-          }
+        if(result.code === 0) {
+          //登录成功,将用户信息保存到状态中(state)
+          this.$store.dispatch('saveUser',result.data);
+          //跳转到个人中心页面
+          this.$router.replace('/profile');
+        }else{
+          //登录失败
+          MessageBox.alert('登录失败')
         }
       }
     }
