@@ -17,7 +17,8 @@
                 :disabled="!isRightPhone || computeTime>0"
                 class="get_verification"
                 :class="{right_phone_number: isRightPhone}"
-                @click.prevent="sendCode">
+                @click.prevent="sendCode"
+                ref="changeFontColor">
                 {{computeTime > 0 ? `已发送(${computeTime}s)`:'发送验证码'}}
               </button>
             </section>
@@ -43,7 +44,10 @@
               </section>
               <section class="login_message">
                 <input type="text" maxlength="11" placeholder="验证码">
-                <img class="get_verification" src="./images/captcha.svg" alt="captcha">
+                <img class="get_verification"
+                     src="http://localhost:5000/captcha" alt="captcha"
+                     ref="captcha"
+                      @click="updateCaptcha">
               </section>
             </section>
           </div>
@@ -58,6 +62,8 @@
   </section>
 </template>
 <script>
+  import {reqSendCode} from '../../api';
+  import {Toast,MessageBox} from 'mint-ui';
   export default {
     data () {
       return {
@@ -73,17 +79,30 @@
       }
     },
     methods:{
-      sendCode () {
+      async sendCode () {
         this.computeTime = 10;
-        this.timer = setInterval(() => {
+        const timer = setInterval(() => {
           this.computeTime--;
-//          button.style.color='grey';
+//          this.$refs.changeFontColor.TextContent = 'grey';
           if(this.computeTime <=0){
             this.computeTime = 0;
             clearInterval(timer)
           }
-        },1000)
-      }
+        },1000);
+
+        // 发ajax请求, 发送短信验证码
+        const result = await reqSendCode(this.phone);
+        if(result.code === 0){
+          Toast('短信已发送');
+        }else {
+          this.computeTime = 0;
+          MessageBox.alert(result.msg, '提示');
+        }
+      },
+      updateCaptcha () {
+        this.$refs.captcha.src = 'http://localhost:5000/captcha?time'+Date.now();
+      },
+
     }
   }
 </script>

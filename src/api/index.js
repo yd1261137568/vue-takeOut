@@ -11,4 +11,7 @@ export const reqAddress = (longitude,latitude) => ajax (BASE + `/position/${lati
 export const reqFoodCategorys = () => ajax (BASE + '/index_category');
 
 //根据经纬度获取商铺列表
-export const reqShops = ({longitude,latitude}) => ajax(BASE + '/shops',{latitude,longitude})
+export const reqShops = ({longitude,latitude}) => ajax(BASE + '/shops',{latitude,longitude});
+
+//发送一次性手机验证码
+export const reqSendCode = ({phone}) => ajax(BASE + '/sendcode',{phone});

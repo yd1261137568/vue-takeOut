@@ -36,8 +36,14 @@
   import 'swiper/dist/css/swiper.min.css';
   import ShopList from '../../components/ShopList/ShopList.vue';
   export default {
+    mounted () {
+      //分发异步获取食品分类列表
+      this.$store.dispatch('getFoodCategorys');// 先this.$store.dispatch('actionName')获取后台数据到前端页面中(state)
+      //分发异步获取商家列表
+      this.$store.dispatch('getShops');
+    },
     computed:{
-      ...mapState(['address','categorys']),
+      ...mapState(['address','categorys']),//...mapState(['xxx'])读取state中的数据到组件中
       categorysArr () {
         const {categorys} = this;
         //大数组
@@ -56,12 +62,7 @@
         return arr
       }
     },
-    mounted () {
-      //分发异步获取食品分类列表
-      this.$store.dispatch('getFoodCategorys');
-      //分发异步获取商家列表
-      this.$store.dispatch('getShops');
-    },
+
     watch:{
       // 更新状态数据==>调用监视的回调函数 ==> 异步更新界面 ==> 执行$nextTick()指定的回调函数
       categorys () {
