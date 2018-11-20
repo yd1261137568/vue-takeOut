@@ -14,4 +14,10 @@ export const reqFoodCategorys = () => ajax (BASE + '/index_category');
 export const reqShops = ({longitude,latitude}) => ajax(BASE + '/shops',{latitude,longitude});
 
 //发送一次性手机验证码
-export const reqSendCode = ({phone}) => ajax(BASE + '/sendcode',{phone});
+export const reqSendCode = (phone) => ajax(BASE + '/sendcode',{phone});
+
+//手机验证码登录
+export const reqSmsLogin = ({phone,code}) => ajax(BASE+'/login_sms',{phone,code},'POST');
+
+//密码登录
+export const reqPwdLogin = ({name,pwd,captcha}) => ajax(BASE+'/login_pwd',{name,pwd,captcha},'POST');

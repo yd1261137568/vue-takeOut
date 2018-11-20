@@ -7,7 +7,7 @@ import {
 import {
   reqAddress,
   reqFoodCategorys,
-  reqShops
+  reqShops,
 } from '../api';
 export default {
   //异步获取地址信息
