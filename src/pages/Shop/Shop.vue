@@ -21,6 +21,7 @@
 
   import ShopHeader from '../../components/ShopHeader/ShopHeader.vue';
   export default {
+    //模拟发送ajax请求,测试mock有没有生效
     mounted () {
       this.$store.dispatch('getShopInfo')
     },

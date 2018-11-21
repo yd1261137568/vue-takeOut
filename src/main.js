@@ -8,6 +8,7 @@ import store from './store';
 
 //注册全局组件
 Vue.component('TopHeader',TopHeader);
+import './mock/mockServer'
 
 export default new Vue({
   el:'#app',

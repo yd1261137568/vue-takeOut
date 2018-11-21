@@ -12,7 +12,10 @@ import {
   reqAddress,
   reqFoodCategorys,
   reqShops,
-  reqUserInfo
+  reqUserInfo,
+  reqShopGoods,
+  reqShopRatings,
+  reqShopInfo
 } from '../api';
 export default {
   //异步获取地址信息
