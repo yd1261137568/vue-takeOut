@@ -3,7 +3,8 @@
     <TopHeader title="个人中心"/>
     <section class="profile">
       <section class="profile-number">
-        <a href="javascript:" class="profile-link" @click="$router.push(user._id? '/userInfo':'/login')">
+        <a href="javascript:" class="profile-link" @click="$router.push(user._id? '/userInfo' +
+         '':'/login')">
           <div class="profile_image">
             <i class="iconfont icon-person"></i>
           </div>
@@ -89,15 +90,30 @@
           </div>
         </a>
       </section>
+      <mt-button type="danger" class="logout" @click="logout" v-if="user._id">退出登录</mt-button>
     </section>
   </div>
 
 </template>
 <script>
-  import {mapState} from 'vuex'
+  import {mapState} from 'vuex';
+  import {MessageBox} from 'mint-ui'
   export default {
     computed:{
       ...mapState(['user'])
+    },
+    methods:{
+      logout () {
+        MessageBox.confirm('您确定要退出登录吗')
+          .then(
+            action => {
+              this.$store.dispatch('logout')
+          },
+            action => {
+              console.log('点击了取消');
+            }
+          )
+      }
     }
 
   }
@@ -234,4 +250,7 @@
             .icon-jiantou1
               color #bbb
               font-size 10px
+    .logout
+      margin-top 30px
+      width 100%
 </style>

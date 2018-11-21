@@ -4,6 +4,7 @@ import {
   RECEIVE_CATEGORYS,
   RECEIVE_SHOPS,
   RECEIVE_USER,
+  RESET_USER,
   RECEIVE_GOODS,
   RECEIVE_RATINGS,
   RECEIVE_INFO
@@ -13,6 +14,7 @@ import {
   reqFoodCategorys,
   reqShops,
   reqUserInfo,
+  reqLogout,
   reqShopGoods,
   reqShopRatings,
   reqShopInfo
@@ -62,12 +64,20 @@ export default {
     }
   },
 
+  //退出登录
+  async logout ({commit}) {
+    const result =await reqLogout();
+    if(result.code ===0) {
+      commit(RESET_USER)
+    }
+  },
   //获取商家商品列表
-  async getShopGoods ({commit}) {
+  async getShopGoods ({commit}, cb) {
     const result = await reqShopGoods();
     if(result.code === 0) {
       const goods = result.data;
       commit(RECEIVE_GOODS,{goods})
+      typeof cb === 'function' && cb();
     }
   },
   //获取商家评论列表
@@ -83,7 +93,7 @@ export default {
     const result = await reqShopInfo();
     if(result.code === 0) {
       const info = result.data;
-      commit(RECEIVE_INFO,{info})
+      commit(RECEIVE_INFO,{info});
     }
   },
 

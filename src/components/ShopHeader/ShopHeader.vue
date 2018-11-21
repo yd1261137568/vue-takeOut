@@ -2,11 +2,10 @@
   <div class="shop-header">
     <nav class="shop-nav"
          :style="{backgroundImage:`url(${info.bgImg})`}">
-      <a class="back">
-        <i class="iconfont icon-arrow_left"/>
+      <a class="back" @click="$router.back()">
+        <i class="iconfont icon-arrow_left" />
       </a>
     </nav>
-
 
     <div class="shop-content" @click="isShowBulletin=true">
       <img :src="info.avatar" class="content-image">
